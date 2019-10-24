@@ -3,7 +3,7 @@
     <div class="card">
       <div class="row no-gutters">
         <div class="col-md-4">
-          <img :src="hostPoster + movieDetails.poster_path" class="card-img" alt="#">
+          <img :src="poster" class="card-img" alt="#">
         </div>
         <div class="col-md-8">
           <div class="card-body">
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="mt-5" v-if="videoKey">
-      <iframe width="100%" height="400" :src="hostVideo + videoKey" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen />
+      <iframe width="100%" height="400" :src="video" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen />
     </div>
   </div>
 </template>
@@ -43,6 +43,9 @@
 <script>
 import axios from 'axios';
 import routes from '../utils/routes';
+
+const hostPoster = 'https://image.tmdb.org/t/p/w300_and_h450_bestv2';
+const hostVideo = 'https://www.youtube.com/embed/';
 
 export default {
   name: 'MovieDetails',
@@ -54,15 +57,20 @@ export default {
   },
   data () {
     return {
-      hostPoster: 'https://image.tmdb.org/t/p/w300_and_h450_bestv2',
-      hostVideo: 'https://www.youtube.com/embed/',
       movieDetails: {},
       videoKey: '',
     };
   },
   computed: {
+    poster() {
+      if (!this.movieDetails.poster_path) return null;
+      return `${hostPoster}${this.movieDetails.poster_path}`;
+    },
     countries () {
       return this.movieDetails.production_countries;
+    },
+    video() {
+      return `${hostVideo}${this.videoKey}`;
     },
   },
   watch: {

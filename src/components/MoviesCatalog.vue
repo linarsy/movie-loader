@@ -28,13 +28,11 @@ export default {
     };
   },
   computed: {
-    movieGenresIds () {
+    filteredGenres () {
       /* eslint-disable-next-line camelcase */
       const genreIds = this.movies.map(({genre_ids}) => genre_ids);
-      return union(flatten(genreIds));
-    },
-    filteredGenres () {
-      return this.genres.filter(({id}) => this.movieGenresIds.indexOf(id) !== -1);
+      const movieGenresIds = union(flatten(genreIds));
+      return this.genres.filter(({id}) => movieGenresIds.indexOf(id) !== -1);
     },
   },
   created: function () {
